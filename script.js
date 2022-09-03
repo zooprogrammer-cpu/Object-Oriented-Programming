@@ -1,22 +1,23 @@
-'use strict';
-// Class expression
-// const PersonCl = class{
+//getters and setters. 
+//functions within an object
+const account = {
+    owner: 'Jonas',
+    movements: [200, 300, 400],
 
-// }
-
-// Class declaration
-class PersonCl{
-    constructor(firstName, birthYear){
-        this.firstName = firstName
-        this.birthYear = birthYear
+    get latest() {
+        return this.movements.slice(-1).pop()
+    },
+    // not mandatory to have a setter if there is a getter
+    set latest(mov) {
+        return this.movements.push(mov)
     }
 
-    calcAge(){
-        console.log(2037 - this.birthYear);
-    }
 }
 
-const jessica = new PersonCl('Jessica', 1984)
-console.log(jessica); //prints PersonCl {firstName: "Jessica", birthYear: 1984}
-
-console.log(jessica.calcAge()); //prints 53
+console.log(account.latest); //prints 400
+// this would not have worked if there was no get
+// to set a new value, instead of doing account.latest(600)
+// we do this- 
+account.latest = 600
+console.log(account.movements);
+ //prints [200, 300, 400, 600]
