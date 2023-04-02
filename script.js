@@ -1,47 +1,39 @@
 'use strict'; 
-// Section 15 - ES6 Classes
-// Class is just a special type of function 
-// First way - class expression
-// const Personcls1 = new class{
-
-// }
-
-// Second way - class decleration
+// setters and getters to use as validation 
 class Personcls1 {
-    //first thing to add is a constructor method
-    constructor(firstName, birthYear){
-        this.firstName = firstName; 
+    constructor(fullName, birthYear){
+        this.fullName = fullName; // each time this code is executed, the setter below gets executed
         this.birthYear = birthYear;
     }
-    // can have a function right here. Methods will be added to .prototype property of the class
-    calcAge(){
-        console.log(2037 - this.birthYear);
-    }
+
     // getter in a class
     get age(){ 
         return this.birthYear - 30 ; 
     }
+    // setter to check for full name.
+    // Set a property that already exists.
+    // Note that fullName is a proprty that already exists above
+    set fullName(name){
+        if (name.includes(' ')){
+            this._fullName = name; // convention is to use _fullName else we get error
+        } else {
+            alert (`The given ${name} is not a full name`); 
+        }
+    }
+    // cannot do jessica.fullName now since it is undefined. So we need to use a getter
+    get fullName(){
+        return this._fullName; 
+    }
 
 }
 
-const jessica = new Personcls1('Jessica', 1965);
-console.log(jessica);  // prints Personcls1 {firstName: 'Jessica', birthYear: 1956}
-jessica.calcAge(); // prints 72
-// to call the getter in class
-console.log(jessica.age); // prints 1935
+const jessica = new Personcls1('Jessica Davis', 1965);
+console.log('Full name is: ' ,jessica.fullName); // prints full name is Jessica Davis
+//Note it is still _fullName: 'Jessica Davis'. 
+console.log(jessica);//Personcls1 {_fullName: 'Jessica Davis', birthYear: 1965}
 
-// can try adding a method manually
-Personcls1.prototype.greet = function (){
-    console.log(`Hey ${this.firstName}`);
-}
 
-jessica.greet(); // prints Hey Jessica
-// to use a getter - 
-jessica.age; 
+const walter = new Personcls1('Walter', 1965);
+console.log(walter); // prints : The given Walter is not a full name
 
-// Important points - 
-
-//1. Classes are not hoisted - cannot be used before they are declared 
-//2. Classes are first class citizens - can pass them into functions and return them from functions
-//3. Classes are executed in strict mode
 
