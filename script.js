@@ -1,39 +1,42 @@
 'use strict';
 
-// Challenge 2 - Redo Challenge 1 with Class
+'use strict';
+// Section 14 - Inheritance between Classes
+// Using COnstructor Functions 
+const Person = function (firstName, birthYear){
+    this.firstName = firstName;
+    this.birthYear = birthYear; 
+};
 
-class Car {
-    constructor (make, speed){
-        this.make = make; 
-        this.speed = speed; 
-    }
+Person.prototype.calcAge = function (){
+    console.log(2037 - this.birthYear);
+};
 
-    accelerate(){
-        return console.log('The accelerated speed is: ', this.speed += 10);
-    }
-    brake(){
-        return console.log('The braked speed is:', this.speed -= 20);
-    }
-    // getter to change speed to US miles
-    get speedUS(){
-    return this.speed/ 1.6;
-    }
+const Student = function(firstName, birthYear, course){
+    // this.firstName = firstName; 
+    // this.birthYear = birthYear;
+    // this.course = course; 
+    // instead of duplicating like above, just called the Person function
+    Person.call(this, firstName, birthYear);
+    this.course = course; 
+};
+// Linking Prototypes
+Student.prototype = Object.create(Person.prototype);
 
-    //setter- take a new speed and multiply by 1.6
-    set speedUS(speed){
-        this.speed = speed * 1.6; 
-    }
-}
+// to create a method, use prototype
+Student.prototype.introduce = function(){
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
 
-let bmw = new Car ('BMW', 120);
-console.log(bmw); //prints Car {make: 'BMW', speed: 120}
-console.log(bmw.speedUS); //prints 75
-bmw.accelerate(); //prints The accelerated speed is: 130
-bmw.brake(); // prints The braked speed is: 110
-//setter - 
-bmw.speedUS = 50;
-console.log(bmw); //prints Car {make: 'BMW', speed: 80}
-//which is 50 * 1.6  = 80
+const mike = new Student ('Mike', 1956, 'Computer Science');
+console.log(mike);
+mike.introduce(); // prints My name is Mike and...
+mike.calcAge();  // prints 81
+
+console.log(mike.__proto__);
+console.log(Student.prototype.constructor);
+
+
 
 
 
