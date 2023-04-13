@@ -83,3 +83,42 @@ console.log(tesla); //prints EV {make: 'Tesla', speed: 150, charge: 90}
 tesla.brake(); // The decreased speed is: 140
 tesla.accelerate(); //The speed has increased to 160. The charge has decreased to 89 
 
+//Inheritance between classes - ES6 Classes
+class PersonCl {
+    constructor (fullName, birthYear){
+        this.fullName  = fullName;
+        this.birthYear = birthYear;
+    }
+    calcAge(){
+        console.log(2037 - this.birthYear); 
+    }
+}
+// syntatic sugar on class using constructors from before
+// still need constructors but can have additional arguements that the parent class
+class StudentCl extends PersonCl {
+    constructor (fullName, birthYear, course){
+        //super is the constructor function of the parent class. Pass arguements from the parent class
+        //always needs to be the first since without doinf this, we would not be able to access the this keyword
+        super (fullName, birthYear);
+        this.course = course;  
+    }
+
+    // let's add a method
+    introduce(){
+        console.log(`My name is ${this.fullName} and I study ${this.course}`);
+    }
+
+    // can overwrite the parent method
+    calcAge(){
+        console.log(`My new age is: ${ 2056 - this.birthYear}`);
+    }
+}
+
+const martha  = new StudentCl('Martha Jones', 2012, 'Business');
+console.log(martha);
+// prints StudentCl {fullName: 'Martha Jones', birthYear: 2012, course: 'Business'}
+
+martha.introduce();
+// My name is Martha Jones and I study Business
+martha.calcAge(); // prints 25 // prints 44 if overwritten by new child method
+
