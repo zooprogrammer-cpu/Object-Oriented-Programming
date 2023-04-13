@@ -122,3 +122,35 @@ martha.introduce();
 // My name is Martha Jones and I study Business
 martha.calcAge(); // prints 25 // prints 44 if overwritten by new child method
 
+///////////////
+//Inheritance between Classes - using Object.Create
+// Note that this is not used a lot.. ES6 Classes are used more
+const PersonProto ={
+    calcAge(){
+        console.log(2037 - this.birthYear);
+    },
+
+    init(firstName, birthYear){
+        this.firstName = firstName;
+        this.birthYear = birthYear; 
+    }
+}
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course){
+    PersonProto.init.call(this, firstName, birthYear);
+    this.course = course; 
+}
+
+StudentProto.introduce = function(){
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+}
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2020, 'Computer Science');
+
+console.log(jay);
+jay.introduce();// prints My name is Jay and I study Computer Science
+jay.calcAge();// prints 17
+
