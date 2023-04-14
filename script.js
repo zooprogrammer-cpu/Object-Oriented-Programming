@@ -1,62 +1,52 @@
-'use strict';
-// Another Class Example
-class Account {
-    // Public fields (instances)
-    locale = navigator.language; 
-    
-    // Private fields
-    #movements = []; 
-    #pin; 
-
-    constructor(owner, currency, pin){
-        this.owner = owner;
-        this.currency = currency;
-        this.#pin = pin; 
-        console.log(`Thanks for opening an Account, ${this.owner}`);
-    }
-    //Public interface
-    getMovements(){
-        return this.#movements; 
+// Coding Challenge 4- 
+// Redo Challenge 3 using ES6 Classes
+// Create 'EVCl' child Class
+// Make child class private
+// Chain accelerate and chargeBattery methods 
+class CarCl {
+    constructor (make, speed){
+        this.make = make;
+        this.speed = speed; 
     }
 
-    deposit(val){
-        this.#movements.push(val);
+    brake(){
+        this.speed -= 10; 
         return this; 
     }
 
-    withdrawl(val){
-        this.deposit(-val);
-        return this; 
+    get speedUS(){
+        return this.speed / 1.6;
     }
 
-    _approveLoan(val){
-        return true; 
-    }
-
-    requestLoan(val){
-        if (this._approveLoan(val)){
-            this.deposit(val);
-            console.log(`Loan approved`);
-            return this; 
-        }
+    set speedUS(speed){
+        this.speed = speed * 1.6;
     }
 }
 
-const acc1 = new Account('Jonas', 'EUR', 1111);
-console.log(acc1);
-acc1.deposit(250);
-acc1.withdrawl(140);
-acc1.requestLoan(1000);
-acc1._approveLoan(5000); 
+class EVCl extends CarCl {
+    #charge; 
+    constructor (make, speed, charge) {
+        super (make, speed);
+        this.#charge = charge; 
+    }
 
-// Chaining Methods. Need to add returns in the methods
-acc1.deposit(300).deposit(500).withdrawl(35).
-requestLoan(5000);
-console.log(acc1.getMovements());
-// prints [250, -140, 1000, 300, 500, -35, 5000]
+    chargeBattery(chargeTo){
+        this.#charge = chargeTo; 
+        return this;
+    }
 
+    accelerate(){
+        this.speed += 10;
+        this.#charge--; 
+        console.log(`${this.make} is going at ${this.speed} 
+        with a charge of ${this.#charge}`); 
+        return this;
+    }
+}
 
-
-
-
-
+const rivian = new EVCl ('Rivian', 120, 23);
+// console.log(rivian);
+// console.log(rivian.#charge);
+// chaining methods
+rivian.accelerate().accelerate().brake().chargeBattery(50).accelerate();
+console.log(rivian.speedUS);
